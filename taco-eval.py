@@ -9,7 +9,7 @@ experiment = sys.argv[2] if len(sys.argv) > 2 else 'spmv_csr_cpu'
 results_dir = sys.argv[3] if len(sys.argv) > 3 else '.'
 hardware = sys.argv[4] if len(sys.argv) > 4 else 'None'
 feature = sys.argv[5] if len(sys.argv) > 5 else '64'
-
+tensor_names = sys.argv[6] if len(sys.argv) > 6 else 'None'
 
 
 log_path = os.path.join(results_dir, experiment + '.csv')
@@ -24,12 +24,12 @@ if '_dia_' in experiment or '_ell_' in experiment:
                     'dixmaanl', 'shyy161', 'apache1', 'denormal', 'Baumann', 
                     'majorbasis', 'Lin', 'apache2', 'ecology1', 'atmosmodd']
 else:
-  if matrices_dir == '/home/nfs_data/zhanggh/mytaco/learn-taco/tensors':
+  if tensor_names is None:
     input_matrices = [os.fsencode(input_folder).decode() for input_folder in 
                       sorted(os.listdir(os.fsencode(matrices_dir)))]
     #print(input_matrices)
   else: # matrices_dir == '/home/nfs_data/zhanggh/tenTACO/tensor_subset'
-    f = open('part_names.txt','r')
+    f = open(tensor_names,'r')
     input_matrices = f.readline().split(',')
     input_matrices.sort()
     f.close()

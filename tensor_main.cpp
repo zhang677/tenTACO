@@ -21,6 +21,7 @@ int main(int argc, char* argv[]) {
   const std::string feature_dim    = (argc > 6) ? argv[6] : "32";
 
 
+  //const bool do_verify = false;
   const bool do_verify = true;
   const int num_cols = std::stoi(feature_dim);
   const std::string tensor_path = tensor_dir + "/" + tensor_name + ".tns";
@@ -32,7 +33,7 @@ int main(int argc, char* argv[]) {
   if (experiment == "mttkrp_csf_gpu") {
     mttkrp_csf_gpu(input_tensor, tensor_name, do_verify, num_cols);
   }
- else if (experiment == "ttv_csf_gpu") {
+  else if (experiment == "ttv_csf_gpu") {
     // ttv_csf_gpu(input_tensor, tensor_name, do_verify);
   }
 

@@ -1,0 +1,70 @@
+[
+    {
+        "arguments": [
+            "/home/eva_share/opt/cuda-11.1/bin/nvcc",
+            "-c",
+            "-O3",
+            "--std=c++14",
+            "-I",
+            ".",
+            "-DGPU",
+            "tensor_main_gpu.o",
+            "-o",
+            "tensor-eval-gpu",
+            "gpu_kernels.cu"
+        ],
+        "directory": "/home/nfs_data/zhanggh/tenTACO",
+        "file": "gpu_kernels.cu"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-std=c++14",
+            "-x",
+            "c++",
+            "-D__NVCC__",
+            "-fPIC",
+            "-O3",
+            "-I.",
+            "-I/home/nfs_data/zhanggh/mytaco/learn-taco/zghshared/eigen-3.4.0",
+            "-I/home/nfs_data/zhanggh/mytaco/learn-taco/zghshared/splatt/include",
+            "-I/home/eva_share/opt/cuda-11.1/include",
+            "-I/home/eva_share/opt/cuda-11.1/bin/../targets/x86_64-linux/include",
+            "-D__CUDACC_VER_MAJOR__=11",
+            "-D__CUDACC_VER_MINOR__=1",
+            "-D__CUDACC_VER_BUILD__=74",
+            "-D__CUDA_API_VER_MAJOR__=11",
+            "-D__CUDA_API_VER_MINOR__=1",
+            "-m64",
+            "-o",
+            "/tmp/tmpxft_000e9fc9_00000000-5_tensor_main.o",
+            "tensor_main.cpp"
+        ],
+        "directory": "/home/nfs_data/zhanggh/tenTACO",
+        "file": "tensor_main.cpp"
+    },
+    {
+        "arguments": [
+            "/home/eva_share/opt/cuda-11.1/bin/nvcc",
+            "-c",
+            "-O3",
+            "--std=c++14",
+            "-Xcompiler",
+            "-fPIC",
+            "-I",
+            ".",
+            "-I",
+            "/home/nfs_data/zhanggh/mytaco/learn-taco/zghshared/eigen-3.4.0",
+            "-I",
+            "/home/nfs_data/zhanggh/mytaco/learn-taco/zghshared/splatt/include",
+            "-I",
+            "/home/eva_share/opt/cuda-11.1/include",
+            "-o",
+            "tensor_main_gpu.o",
+            "tensor_main.cpp"
+        ],
+        "directory": "/home/nfs_data/zhanggh/tenTACO",
+        "file": "tensor_main.cpp"
+    }
+]

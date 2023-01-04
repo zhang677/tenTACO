@@ -3,7 +3,7 @@
 
 #include "tensor_kernels/mttkrp3_csf_gpu_taco.h"
 #include "tensor_kernels/ttv_csf_gpu_taco.h"
-
+#include "tensor_kernels/mttkrp3_csf_ebpr.h"
 
 GPUTimer gpu_timer;
 

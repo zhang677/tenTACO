@@ -33,3 +33,5 @@
 
 tensor_result/
 tensor_subset/
+.cache/
+.vscode/

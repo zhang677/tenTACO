@@ -1,0 +1,6 @@
+spmm_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+mttkrp_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+mttkrp_64_eb_pr_256_32_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+mttkrp_32_eb_pr_256_256_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+mttkrp_32_eb_pr_256_256_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+mttkrp_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;

@@ -1,0 +1,6 @@
+RUN_GPU( spmm_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune0", tensor_name);
+RUN_GPU( mttkrp_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune0", tensor_name);
+RUN_GPU( mttkrp_64_eb_pr_256_32_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune0", tensor_name);
+RUN_GPU( mttkrp_32_eb_pr_256_256_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune0", tensor_name);
+RUN_GPU( mttkrp_32_eb_pr_256_256_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune0", tensor_name);
+RUN_GPU( mttkrp_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune0", tensor_name);

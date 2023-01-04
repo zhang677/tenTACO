@@ -39,7 +39,7 @@ void mttkrp_ref(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tenso
           int64_t pC2 = k * C2_dimension + j;
           int64_t pD2 = l * D2_dimension + j;
 
-		B_vals[pB3]=1; C_vals[pC2]=1; D_vals[pD2]=1;
+		      B_vals[pB3]=1; C_vals[pC2]=1; D_vals[pD2]=1;
 
           A_vals[pA2] = A_vals[pA2] + B_vals[pB3] * C_vals[pC2] * D_vals[pD2];
         }
@@ -70,20 +70,26 @@ void mttkrp_csf_gpu(splatt_csf* B_splatt, const std::string& tensor_name, const 
 	}
 
 	mttkrp_ref(&mats_ref[0], &B_taco, &mats[1], &mats[2]);
-  	compress_top_level(B_taco); // compress top level
-	mttkrp_gpu_taco(&mats[0], &B_taco, &mats[1], &mats[2]);
+  compress_top_level(B_taco); // compress top level
+	//mttkrp_32_eb_pr_256_64_32_manual(&mats[0], &B_taco, &mats[1], &mats[2]);
+  //mttkrp_32_eb_sr_512_4_1(&mats[0], &B_taco, &mats[1], &mats[2]);
+  mttkrp_64_eb_pr_256_32_32(&mats[0], &B_taco, &mats[1], &mats[2]);
 
-    std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
 
-    exit(0);
+  exit(0);
   }
 
   compress_top_level(B_taco); // compress top level
 
-  const int trials = 10;
+  const int trials = 25;
 
   RUN_GPU(mttkrp_gpu_taco(&mats[0], &B_taco, &mats[1], &mats[2]);, 
           trials, "mttkrp", "gpu", "csf", "taco", tensor_name);
+  RUN_GPU(mttkrp_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);, 
+          trials, "mttkrp", "eb", "pr", "tune0", tensor_name);
+  RUN_GPU(mttkrp_32_eb_sr_512_4_1(&mats[0], &B_taco, &mats[1], &mats[2]);, 
+          trials, "mttkrp", "eb", "sr", "tune0", tensor_name);
 }
 
 #endif
