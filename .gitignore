@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+tensor_result/
+tensor_subset/
