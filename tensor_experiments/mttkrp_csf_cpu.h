@@ -15,10 +15,10 @@
 #include "tensor_kernels/mttkrp5_csf_cpu_taco.h"
 #include "tensor_kernels/mttkrp5_csf_cpu_taco_workspace.h"
 
-void mttkrp_csf_cpu(splatt_csf* B_splatt, const std::string& tensor_name, const bool do_verify) {
+void mttkrp_csf_cpu(splatt_csf* B_splatt, const std::string& tensor_name, const bool do_verify, int num_cols) {
   taco_tensor_t B_taco = to_taco_tensor(B_splatt);
   
-  const int J = 32;
+  int J = num_cols;
 
   splatt_kruskal factor_matrices = gen_factor_matrices(J, B_splatt);
   std::vector<taco_tensor_t> mats(B_splatt->nmodes);

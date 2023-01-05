@@ -12,7 +12,7 @@ feature = sys.argv[5] if len(sys.argv) > 5 else '64'
 tensor_names = sys.argv[6] if len(sys.argv) > 6 else 'None'
 
 
-log_path = os.path.join(results_dir, experiment + '.csv')
+log_path = os.path.join(results_dir, experiment + '_' + feature + '_' + hardware + '.csv')
 with open(log_path, 'w') as log_file:
   log_file.write('kernel,platform,format,library,tensor,time\n')
 
@@ -27,8 +27,7 @@ else:
   if tensor_names is None:
     input_matrices = [os.fsencode(input_folder).decode() for input_folder in 
                       sorted(os.listdir(os.fsencode(matrices_dir)))]
-    #print(input_matrices)
-  else: # matrices_dir == '/home/nfs_data/zhanggh/tenTACO/tensor_subset'
+  else:
     f = open(tensor_names,'r')
     input_matrices = f.readline().split(',')
     input_matrices.sort()

@@ -29,7 +29,7 @@ if __name__ == '__main__':
     common_suffix = "copy_from_device_mttkrp(A, B, C, D);\n\
     free_tensors_mttkrp();\n"
 
-    prefix = 'mttkrp3_'+str(feat)+'_'
+    prefix = 'mttkrp3_'+str(threads_per_block)+'_'
     root = '/home/nfs_data/zhanggh/tenTACO/generated_kernels/'
     header = '/home/nfs_data/zhanggh/tenTACO/generated_kernels/fake_head.cuh'
     log_path = root+'fake_ori.h'

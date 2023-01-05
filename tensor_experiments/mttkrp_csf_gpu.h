@@ -71,11 +71,74 @@ void mttkrp_csf_gpu(splatt_csf* B_splatt, const std::string& tensor_name, const 
 
 	mttkrp_ref(&mats_ref[0], &B_taco, &mats[1], &mats[2]);
   compress_top_level(B_taco); // compress top level
-	//mttkrp_32_eb_pr_256_64_32_manual(&mats[0], &B_taco, &mats[1], &mats[2]);
-  //mttkrp_32_eb_sr_512_4_1(&mats[0], &B_taco, &mats[1], &mats[2]);
-  mttkrp_64_eb_pr_256_32_32(&mats[0], &B_taco, &mats[1], &mats[2]);
-
-  std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  /*
+	mttkrp_32_eb_pr_256_32_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_32_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_32_16(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_32_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_64_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_64_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_64_16(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_128_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_128_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_128_16(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_128_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_256_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_256_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_256_16(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_256_256_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  */
+  /*
+  mttkrp_32_eb_pr_512_64_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_64_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_64_16(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_128_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_128_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_128_16(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_128_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_256_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_256_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_256_16(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_256_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_512_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_512_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_512_16(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_pr_512_512_32(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  */
+  mttkrp_32_eb_sr_256_4_1(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_4_2(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_4_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_4_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_8_1(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_8_2(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_8_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_8_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_16_1(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_16_2(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_16_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_16_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_32_1(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_32_2(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_32_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_256_32_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_4_1(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_4_2(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_4_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_4_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_8_1(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_8_2(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_8_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_8_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_16_1(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_16_2(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_16_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_16_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_32_1(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_32_2(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_32_4(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
+  mttkrp_32_eb_sr_512_32_8(&mats[0], &B_taco, &mats[1], &mats[2]);std::cout << "taco CPU vs taco GPU: " << compare_matrices_float(mats_ref[0], mats[0]) << std::endl;
 
   exit(0);
   }
@@ -83,13 +146,75 @@ void mttkrp_csf_gpu(splatt_csf* B_splatt, const std::string& tensor_name, const 
   compress_top_level(B_taco); // compress top level
 
   const int trials = 25;
-
-  RUN_GPU(mttkrp_gpu_taco(&mats[0], &B_taco, &mats[1], &mats[2]);, 
-          trials, "mttkrp", "gpu", "csf", "taco", tensor_name);
-  RUN_GPU(mttkrp_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);, 
-          trials, "mttkrp", "eb", "pr", "tune0", tensor_name);
-  RUN_GPU(mttkrp_32_eb_sr_512_4_1(&mats[0], &B_taco, &mats[1], &mats[2]);, 
-          trials, "mttkrp", "eb", "sr", "tune0", tensor_name);
+  /*
+  RUN_GPU( mttkrp_gpu_taco(&mats[0], &B_taco, &mats[1], &mats[2]);, trials, "mttkrp", "gpu", "csf", "taco", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_32_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune0", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_32_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune1", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_32_16(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune2", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_32_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune3", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_64_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune4", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_64_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune5", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_64_16(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune6", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune7", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_128_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune8", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_128_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune9", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_128_16(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune10", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_128_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune11", tensor_name);
+  */
+  /*
+  RUN_GPU( mttkrp_32_eb_pr_256_256_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune12", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_256_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune13", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_256_16(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune14", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_256_256_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune15", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_64_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune16", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_64_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune17", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_64_16(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune18", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_64_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune19", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_128_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune20", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_128_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune21", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_128_16(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune22", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_128_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune23", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_256_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune24", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_256_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune25", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_256_16(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune26", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_256_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune27", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_512_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune28", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_512_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune29", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_512_16(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune30", tensor_name);
+  RUN_GPU( mttkrp_32_eb_pr_512_512_32(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "pr", "tune31", tensor_name);
+  */
+  RUN_GPU( mttkrp_32_eb_sr_256_4_1(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune0", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_4_2(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune1", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_4_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune2", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_4_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune3", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_8_1(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune4", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_8_2(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune5", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_8_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune6", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_8_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune7", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_16_1(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune8", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_16_2(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune9", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_16_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune10", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_16_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune11", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_32_1(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune12", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_32_2(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune13", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_32_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune14", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_256_32_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune15", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_4_1(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune16", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_4_2(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune17", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_4_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune18", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_4_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune19", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_8_1(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune20", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_8_2(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune21", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_8_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune22", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_8_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune23", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_16_1(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune24", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_16_2(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune25", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_16_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune26", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_16_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune27", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_32_1(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune28", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_32_2(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune29", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_32_4(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune30", tensor_name);
+  RUN_GPU( mttkrp_32_eb_sr_512_32_8(&mats[0], &B_taco, &mats[1], &mats[2]);, trials,"mttkrp", "eb", "sr", "tune31", tensor_name);
 }
 
 #endif

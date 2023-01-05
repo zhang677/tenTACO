@@ -21,13 +21,13 @@ int main(int argc, char* argv[]) {
   const std::string feature_dim    = (argc > 6) ? argv[6] : "32";
 
 
-  //const bool do_verify = false;
-  const bool do_verify = true;
+  const bool do_verify = false;
+  //const bool do_verify = true;
   const int num_cols = std::stoi(feature_dim);
   const std::string tensor_path = tensor_dir + "/" + tensor_name + ".tns";
   splatt_csf* input_tensor = read_tensor(tensor_path);
 
-  const std::string log_path = results_dir + "/" + experiment + ".csv";
+  const std::string log_path = results_dir + "/" + experiment + "_" + std::to_string(num_cols) + "_" + hardware + ".csv";
   log_file.open(log_path, std::ofstream::app);
  
   if (experiment == "mttkrp_csf_gpu") {

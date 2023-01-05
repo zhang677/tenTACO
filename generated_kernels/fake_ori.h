@@ -424,3 +424,2131 @@ void mttkrp_32_eb_pr_256_64_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t
     free_tensors_mttkrp();
 
 }
+
+void mttkrp_32_eb_pr_256_32_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<32,4,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_32_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<32,4,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_32_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<32,4,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_32_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<32,4,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_64_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<64,8,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_64_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<64,8,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_64_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<64,8,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_64_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<64,8,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_128_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<128,16,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_128_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<128,16,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_128_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<128,16,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_128_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<128,16,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_32_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<32,4,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_32_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<32,4,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_32_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<32,4,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_32_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<32,4,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_64_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<64,8,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_64_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<64,8,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_64_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<64,8,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_64_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<64,8,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_128_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<128,16,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_128_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<128,16,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_128_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<128,16,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_128_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<128,16,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_256_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<256,32,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_256_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<256,32,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_256_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<256,32,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_256_256_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_eb_pr_tune<256,32,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_64_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<64,4,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_64_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<64,4,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_64_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<64,4,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_64_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<64,4,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_128_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<128,8,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_128_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<128,8,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_128_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<128,8,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_128_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<128,8,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_256_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<256,16,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_256_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<256,16,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_256_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<256,16,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_256_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<256,16,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_512_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<512,32,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_512_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<512,32,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_512_16(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<512,32,16><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_pr_512_512_32(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_pr_tune<512,32,32><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_4_1(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 32, 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 32, ((B3_pos[B2_pos[B1_pos[1]]] + 31) / 32));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<4,1><<<(B3_pos[B2_pos[B1_pos[1]]] + 31) / 32, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_4_2(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<4,2><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_4_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<4,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_4_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<4,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_8_1(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<8,1><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_8_2(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<8,2><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_8_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<8,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_8_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<8,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_16_1(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<16,1><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_16_2(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<16,2><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_16_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<16,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_16_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 1024, 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<16,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_32_1(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<32,1><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_32_2(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<32,2><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_32_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 1024, 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<32,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_256_32_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 2048, 2048, ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 2048, ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_256_eb_sr_tune<32,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048, 256>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_4_1(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 64, 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 64, ((B3_pos[B2_pos[B1_pos[1]]] + 63) / 64));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<4,1><<<(B3_pos[B2_pos[B1_pos[1]]] + 63) / 64, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_4_2(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<4,2><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_4_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<4,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_4_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<4,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_8_1(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 128, 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 128, ((B3_pos[B2_pos[B1_pos[1]]] + 127) / 128));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<8,1><<<(B3_pos[B2_pos[B1_pos[1]]] + 127) / 128, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_8_2(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<8,2><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_8_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<8,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_8_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 1024, 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<8,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_16_1(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 256, 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 256, ((B3_pos[B2_pos[B1_pos[1]]] + 255) / 256));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<16,1><<<(B3_pos[B2_pos[B1_pos[1]]] + 255) / 256, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_16_2(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<16,2><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_16_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 1024, 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<16,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_16_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 2048, 2048, ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 2048, ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<16,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_32_1(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 512, 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 512, ((B3_pos[B2_pos[B1_pos[1]]] + 511) / 512));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<32,1><<<(B3_pos[B2_pos[B1_pos[1]]] + 511) / 512, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_32_2(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 1024, 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 1024, ((B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<32,2><<<(B3_pos[B2_pos[B1_pos[1]]] + 1023) / 1024, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_32_4(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 2048, 2048, ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 2048, ((B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<32,4><<<(B3_pos[B2_pos[B1_pos[1]]] + 2047) / 2048, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
+
+void mttkrp_32_eb_sr_512_32_8(taco_tensor_t *A, taco_tensor_t *B, taco_tensor_t *C, taco_tensor_t *D) {
+    int A1_dimension = (int)(A->dimensions[0]);
+    int A2_dimension = (int)(A->dimensions[1]);
+    float* A_vals = (float*)(A->vals);
+    int* B1_pos = (int*)(B->indices[0][0]);
+    int* B2_pos = (int*)(B->indices[1][0]);
+    int* B3_pos = (int*)(B->indices[2][0]);
+    copy_to_device_mttkrp(A, B, C, D);
+
+    int32_t* k_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&k_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 4095) / 4096 + 1)+1048576));
+    int32_t* i_blockStarts = 0;
+    gpuErrchk(cudaMallocManaged((void**)&i_blockStarts, sizeof(int32_t) * ((B3_pos[B2_pos[B1_pos[1]]] + 4095) / 4096 + 1)));
+    TIME_GPU(
+        k_blockStarts = taco_binarySearchBeforeBlockLaunch(global_B3_pos_host_copy, k_blockStarts, 0, B2_pos[B1_pos[1]], 4096, 4096, ((B3_pos[B2_pos[B1_pos[1]]] + 4095) / 4096));
+        i_blockStarts = taco_binarySearchIndirectBeforeBlockLaunch(global_B2_pos_host_copy, i_blockStarts, (int32_t) 0, B1_pos[1], k_blockStarts, (int32_t) 4096, ((B3_pos[B2_pos[B1_pos[1]]] + 4095) / 4096));
+        gpuErrchk(cudaMemset(global_A_vals_host_copy_float, 0, ((size_t) A1_dimension * A2_dimension) * 4));
+        mttkrp3_512_eb_sr_tune<32,8><<<(B3_pos[B2_pos[B1_pos[1]]] + 4095) / 4096, 512>>>(A, B, C, D, i_blockStarts, k_blockStarts);
+    );
+    cudaDeviceSynchronize();
+    gpuErrchk(cudaGetLastError());
+    cudaFree(k_blockStarts);
+    cudaFree(i_blockStarts);
+    copy_from_device_mttkrp(A, B, C, D);
+    free_tensors_mttkrp();
+
+}
